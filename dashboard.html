@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+table{
+width:95%;
+margin:20px auto;
+border-collapse: collapse;
+background:white;
+}
+
+th,td{
+border:1px solid #ddd;
+padding:8px;
+text-align:center;
+}
+
+th{
+background:#1565c0;
+color:white;
+}
+
+.action-btn{
+margin:2px;
+padding:6px 10px;
+border:none;
+color:white;
+cursor:pointer;
+border-radius:4px;
+}
+
+.pending{background:#ff9800;}
+.progress{background:#2196f3;}
+.resolved{background:#4caf50;}
+
+.remark{
+width:120px;
+
+}
+</style>
+
+</head>
+
+<!-- ===== Government Header ===== -->
+<header class="gov-header">
+  <img src="images/emblem.png" class="logo">
+  <div>
+    <h1>Smart Urban Grievance & Service Response System</h1>
+    <p>Government of India | Smart City Mission</p>
+  </div>
+</header>
+
+<!-- ===== Navbar Section ===== -->
+<div class="navbar">
+<div class="nav-right">
+    Admin Complaint Dashboard
+  </div>
+  <div class="nav-left">
+    
+   
+     <a href="index.html" style="background-color: red;">Log Out</a>
+  </div>
+</div>
+
+
+<body>
+
+
+
+<!-- Filter -->
+
+<div class="filter-container">
+    <h3>Filter Complaints :&nbsp; </h3>
+  <select id="filter" onchange="loadComplaints()">
+    <option value="All">All Complaints</option>
+    <option value="Pending">Pending Complaints</option>
+    <option value="In Progress">In Progress Complaints</option>
+    <option value="Resolved">Resolved Complaints</option>
+  </select>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Issue</th>
+<th>Description</th>
+<th>Location</th>
+<th>Image</th> 
+<th>Status</th>
+<th>Remark</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="complaintTable"></tbody>
+
+</table>
+
+<script>
+
+function loadComplaints(){
+
+let filter = document.getElementById("filter").value;
+
+let complaints = JSON.parse(localStorage.getItem("complaints")) || [];
+
+let table = document.getElementById("complaintTable");
+
+table.innerHTML="";
+
+complaints.forEach((c,index)=>{
+
+if(filter !== "All" && c.status !== filter) return;
+
+table.innerHTML += `
+<tr>
+<td>${c.id}</td>
+<td>${c.name}</td>
+<td>${c.issue}</td>
+<td>${c.desc}</td>
+<td>${c.location}</td>
+<td>
+${c.image 
+  ? `<button onclick="openImage('${c.image}')" class="action-btn progress">View Image</button>` 
+  : `No Image`
+}
+</td>
+<td>${c.status}</td>
+
+<td>
+<input class="remark" value="${c.remark || ""}" 
+onchange="updateRemark(${index},this.value)">
+</td>
+
+<td>
+<button class="action-btn pending" 
+onclick="updateStatus(${index},'Pending')">Pending</button>
+
+<button class="action-btn progress" 
+onclick="updateStatus(${index},'In Progress')">In Progress</button>
+
+<button class="action-btn resolved" 
+onclick="updateStatus(${index},'Resolved')">Resolved</button>
+</td>
+
+</tr>
+`;
+
+});
+
+}
+
+function updateStatus(index,status){
+
+let complaints = JSON.parse(localStorage.getItem("complaints"));
+
+complaints[index].status = status;
+
+localStorage.setItem("complaints",JSON.stringify(complaints));
+
+loadComplaints();
+}
+
+function updateRemark(index,remark){
+
+let complaints = JSON.parse(localStorage.getItem("complaints"));
+
+complaints[index].remark = remark;
+
+localStorage.setItem("complaints",JSON.stringify(complaints));
+}
+
+loadComplaints();
+function openImage(imageData){
+
+  let newTab = window.open();
+
+  newTab.document.write(`
+    <html>
+      <head>
+        <title>Complaint Image</title>
+        <style>
+          body{
+            margin:0;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            background:#111;
+          }
+          img{
+            max-width:90%;
+            max-height:90%;
+            border-radius:10px;
+            box-shadow:0 0 20px black;
+          }
+        </style>
+      </head>
+
+      <body>
+        <img src="${imageData}">
+      </body>
+    </html>
+  `);
+
+}
+
+</script>
+
+</body>
+</html>

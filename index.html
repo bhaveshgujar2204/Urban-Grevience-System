@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smart Urban Grievance System</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<!-- ===== Government Header ===== -->
+<header class="gov-header">
+  <img src="images/emblem.png" class="logo">
+  <div>
+    <h1>Smart Urban Grievance & Service Response System</h1>
+    <p>Government of India | Smart City Mission</p>
+  </div>
+</header>
+
+<!-- ===== Navbar Section ===== -->
+<div class="navbar">
+
+  <div class="nav-right">
+    Smart Urban Grievance System
+  </div>
+
+  <!-- Hamburger Icon -->
+  <div class="hamburger" onclick="toggleMenu()">
+    ☰
+  </div>
+
+  <div class="nav-left" id="navMenu">
+    <a href="index.html">Home</a>
+    <a href="#about">About</a>
+    <a href="complaint.html">Register Complaint</a>
+    <a href="status.html">Track Status</a>
+    <a href="admin.html">Admin Login</a>
+  </div>
+
+</div>
+
+
+<!-- Banner -->
+ <div class="main-content">
+<img src="images/banner.jpg" class="banner">
+
+<!-- About Section -->
+<section id="about" class="about">
+  <h2>About This System</h2>
+  <p>
+    Citizens can register complaints related to municipal services and track
+    their status online. This platform helps authorities respond quickly
+    and efficiently.
+  </p>
+</section>
+</div>
+<!-- ===== Footer ===== -->
+<footer class="main-footer">
+  <div class="footer-content">
+    <p>© 2026 Smart City Mission</p>
+    <p>Government of India Initiative</p>
+    <p>All Rights Reserved</p>
+  </div>
+</footer>
+<script>
+function toggleMenu(){
+  let menu = document.getElementById("navMenu");
+  menu.classList.toggle("show");
+}
+</script>
+
+</body>
+</html>
